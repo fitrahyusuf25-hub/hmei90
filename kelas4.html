@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ETERIOUS 9.3 - Red Edition</title>
+    <style>
+        /* Skema Warna Merah Premium */
+        :root {
+            --bg-color: #0a0000; /* Hitam kemerahan */
+            --primary-color: #ff3131; /* Merah terang */
+            --secondary-color: #fda4af; /* Pink kemerahan pucat */
+            --accent-color: #991b1b; /* Merah gelap */
+            --white: #fff1f2;
+            --dark-card: rgba(30, 0, 0, 0.7); /* Transparan untuk efek glassmorphism */
+            --glow: 0 0 15px rgba(255, 49, 49, 0.5);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: radial-gradient(circle at top, #450a0a 0%, #0a0000 70%); /* Gradasi background agar tidak polos */
+            color: var(--secondary-color);
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            border-bottom: 2px solid var(--primary-color);
+            padding: 30px 0;
+            background: rgba(20, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+        }
+
+        h1 {
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            margin: 0;
+            font-size: 2.2rem;
+            text-shadow: var(--glow); /* Efek cahaya pada teks */
+        }
+
+        .school-name {
+            color: var(--white);
+            font-weight: bold;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .photo-container {
+            text-align: center;
+            margin: 30px 0 40px 0;
+            animation: fadeIn 1.5s ease-in;
+        }
+
+        .main-photo {
+            width: 100%;
+            max-width: 600px;
+            border-radius: 20px;
+            border: 3px solid var(--primary-color);
+            box-shadow: var(--glow);
+            transition: 0.5s;
+        }
+
+        .main-photo:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 30px rgba(255, 49, 49, 0.8);
+        }
+
+        .ticker {
+            background: linear-gradient(90deg, #450a0a, #991b1b, #450a0a);
+            color: var(--white);
+            padding: 12px;
+            margin-bottom: 25px;
+            border-radius: 50px; /* Lebih bulat agar keren */
+            overflow: hidden;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+            border: 1px solid var(--primary-color);
+        }
+
+        .card {
+            background: var(--dark-card);
+            backdrop-filter: blur(5px);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 49, 49, 0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-5px);
+        }
+
+        h2 {
+            color: var(--white);
+            border-left: 5px solid var(--primary-color);
+            padding-left: 15px;
+            text-transform: uppercase;
+            font-size: 1.2rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .highlight {
+            color: var(--primary-color);
+            font-weight: bold;
+            text-shadow: 0 0 5px rgba(255, 49, 49, 0.3);
+        }
+
+        .rules-list {
+            padding-left: 20px;
+            color: var(--white);
+        }
+
+        .rules-list li {
+            margin-bottom: 12px;
+            list-style: none;
+            position: relative;
+        }
+
+        .rules-list li::before {
+            content: "➜";
+            position: absolute;
+            left: -25px;
+            color: var(--primary-color);
+        }
+
+        /* --- STYLE TOMBOL FLOATING --- */
+        .btn-stack {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .float-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px; /* Kotak rounded agar modern */
+            border: 2px solid var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--glow);
+            transition: 0.4s;
+            background: #1e0000;
+        }
+
+        .btn-struct { color: var(--primary-color); font-size: 24px; }
+        .btn-info { color: var(--white); font-size: 24px; background: var(--primary-color); }
+
+        .float-btn:hover {
+            transform: rotate(360deg) scale(1.1);
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* --- MODAL / POPUP --- */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            backdrop-filter: blur(10px);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: linear-gradient(145deg, #1e0000, #450a0a);
+            padding: 30px;
+            border-radius: 25px;
+            border: 2px solid var(--primary-color);
+            width: 85%;
+            max-width: 400px;
+            box-shadow: 0 0 50px rgba(255, 49, 49, 0.3);
+            animation: popIn 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        .struct-row {
+            padding: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: 0.3s;
+        }
+
+        .struct-row:hover {
+            background: rgba(255, 49, 49, 0.1);
+        }
+
+        .struct-label { color: var(--primary-color); font-size: 0.8rem; font-weight: bold; }
+        .struct-name { color: var(--white); font-size: 1.1rem; display: block; }
+
+        .close-btn {
+            width: 100%;
+            padding: 12px;
+            margin-top: 20px;
+            border-radius: 12px;
+            border: none;
+            background: var(--primary-color);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        footer { 
+            text-align: center; 
+            padding: 50px 20px; 
+            color: var(--secondary-color); 
+            font-size: 0.85rem;
+            background: rgba(0,0,0,0.3);
+        }
+
+        @keyframes popIn { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="school-name">MTsN NEGRI 1 KONAWE</div>
+    <h1>BERPRESTASI TANPA BATAS</h1>
+</header>
+
+<div class="container">
+    <div class="photo-container">
+        <img src="1000518776.jpg" alt="ETERIOUS IX.3" class="main-photo">
+        <p style="margin-top: 15px; font-weight: bold; color: var(--white); letter-spacing: 2px;">FAMILY OF ETERIOUS IX.3</p>
+    </div>
+
+    <div class="ticker">
+        <marquee scrollamount="7">
+            🔥 UPDATE: Kelas 9.3 Menjunjung Tinggi Solidaritas &bull; Belajar Tanpa Henti, Berprestasi Tanpa Henti &bull; Kejujuran Adalah Identitas Kami &bull; Red Edition Active!
+        </marquee>
+    </div>
+
+    <div class="card">
+        <h2>🔥 Pesan Motivasi</h2>
+        <p style="color: var(--white); font-style: italic; text-align: center; background: rgba(255, 49, 49, 0.1); padding: 20px; border-radius: 15px; border: 1px dashed var(--primary-color);">
+            "Ilmu tanpa adab seperti api tanpa kayu bakar, dan adab tanpa ilmu seperti roh tanpa jasad. Jadilah generasi yang tidak hanya cerdas meretas logika, tapi juga pandai menjaga etika."
+        </p>
+    </div>
+
+    <div class="grid">
+        <div class="card">
+            <h2>Visi Belajar</h2>
+            <p>Menciptakan lingkungan belajar digital yang <span class="highlight">aman, kreatif, dan inspiratif</span> bagi seluruh warga 9.3.</p>
+        </div>
+        <div class="card">
+            <h2>Misi Integritas</h2>
+            <p>Mengedukasi sesama tentang pentingnya <span class="highlight">Etika Digital</span> dan semangat anti-korupsi di sekolah.</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>📜 Golden Rules ETERIOUS 9.3</h2>
+        <ul class="rules-list">
+            <li><span class="highlight">Gagal itu biasa,</span> yang luar biasa adalah saat kamu bangkit setelah sistemmu tumbang.</li>
+            <li>Belajarlah seolah kamu hidup selamanya, jagalah adab seolah kamu mati besok.</li>
+            <li>Solidaritas bukan berarti menyontek, tapi sukses bersama secara jujur.</li>
+            <li>Integritas adalah melakukan hal benar saat tidak ada yang melihat.</li>
+        </ul>
+    </div>
+
+    <footer>
+        <p style="color: var(--primary-color); font-weight: bold;">SYSTEM STATUS: ONLINE / SECURED BY FITRAH_9.3</p>
+        <p>&copy; 2024 ETERIOUS IX.3 - MTsN NEGRI 1 KONAWE</p>
+    </footer>
+</div>
+
+<div class="btn-stack">
+    <button class="float-btn btn-struct" onclick="showModal('modalStruct')">👥</button>
+    <button class="float-btn btn-info" onclick="showModal('modalAuthor')">i</button>
+</div>
+
+<div id="modalStruct" class="modal">
+    <div class="modal-content">
+        <h3 style="text-align: center; color: var(--primary-color); margin-top: 0; letter-spacing: 2px;">STRUKTUR KELAS</h3>
+        <div class="struct-box">
+            <div class="struct-row">
+                <span class="struct-label">Wali Kelas</span>
+                <span class="struct-name">APRILIA</span>
+            </div>
+            <div class="struct-row">
+                <span class="struct-label">Ketua Kelas</span>
+                <span class="struct-name">RAFAEL</span>
+            </div>
+            <div class="struct-row">
+                <span class="struct-label">Wakil Ketua</span>
+                <span class="struct-name">NISAUL JANNAH DAKUNDE</span>
+            </div>
+            <div class="struct-row">
+                <span class="struct-label">Sekretaris</span>
+                <span class="struct-name">EZA APRILIA</span>
+            </div>
+        </div>
+        <button class="close-btn" onclick="hideModal('modalStruct')">TUTUP</button>
+    </div>
+</div>
+
+<div id="modalAuthor" class="modal">
+    <div class="modal-content" style="text-align: center;">
+        <h3 style="color: var(--primary-color); letter-spacing: 2px;">DEVELOPER INFO</h3>
+        <p style="color: var(--white); margin: 10px 0; font-size: 1.2rem;"><strong>Fitrah Yusuf</strong></p>
+        <p style="color: var(--secondary-color);">Siswa Kelas 9.3 (ETERIOUS)</p>
+        <div style="margin-top: 15px; font-size: 0.8rem; color: var(--primary-color);">MTsN 1 KONAWE &copy; 2024</div>
+        <button class="close-btn" onclick="hideModal('modalAuthor')">TUTUP</button>
+    </div>
+</div>
+
+<script>
+    function showModal(id) { document.getElementById(id).style.display = "flex"; }
+    function hideModal(id) { document.getElementById(id).style.display = "none"; }
+    
+    window.onclick = function(event) {
+        if (event.target.className === "modal") { event.target.style.display = "none"; }
+    }
+</script>
+
+</body>
+</html>
